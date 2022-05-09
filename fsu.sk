@@ -1,0 +1,161 @@
+#
+# FSU (Federal Support Unit) is my First selfcoded MC Skript.
+# Its have a Powerful Admin Panel for Servershortcuts and Adminstration
+# and its have a very good support function. with "/am <playername> you can do some Support stuff 
+# I have the plugin full in German but i want to Translate it with the time.
+# I am Not finished yet with it and i wanna update its soon. Some functions dosnt work yet!
+# Coded by CraftModzZ
+# Stay Safe you have downloaded the Skript on a Trusty site like GitHub or Spigot
+# You need the SkQuery-4.1.5 Addon
+# I have tasted the Script on a 1.15 server. I dont give warranty for working on Higher or lower versions
+
+options:
+	prefix: [&6&lFSU]
+
+
+
+
+command /am [<player>]:
+	permission: op
+	permission message: &cDu kannst das Nicht Machen!
+	trigger:
+		wait 1 tick
+		open chest with 5 rows named "&3&l%arg 1% Support Menu" to player 
+		wait 1 tick 
+		format slot 0 of player with ender pearl named "&3zum Spieler Teleportieren" with lore "Telepotiert dich zum Spieler" to close then run [execute player command "/teleport %arg 1%"]
+		format slot 1 of player with ender eye named "&5&lSpieler Beobachten" with lore "Beobachte Spieler ohne das sie es mitbekommen" to close then run [execute player command "/v" and "/stp %arg 1%"]
+		format slot 2 of player with yellow wool named "&6Spieler Verwannen" with lore "Verwannt / mand ein spieler für Fehlverhalten ab." to close then run [execute player command "/warn %arg 1%"]
+		format slot 3 of player with red glass named "&cSpieler Kicken" with lore "Kickt ein Spieler" to close then run [execute player command "/akick %arg 1% Wir haben dich im Auge!"]
+		format slot 4 of player with chest named "&3Invsee Spieler" with lore "Zeigt das Inventar des Spielers" to run [execute player command "/invsee %arg 1%"]
+		format slot 5 of player with orange glass named "&6Spieler Zurücksetzten" with lore "Löscht denn Gesamten Spielfortschritt eines Spielers und setzt ihn auf denn Anfang Zurück!" to close then run [execute player command "/areset %arg 1%"]
+		format slot 6 of player with light gray glass named "&4Töte Spieler" with lore "Töte ihn mit einer Wanung" to close then run [execute player command "/kill %arg 1%"]
+		format slot 44 of player with red wool named "Exit" with lore "lol" to close
+		format slot 8 of player with barrier named "&4Spieler Bannen/Sperren" with lore "Sperre den Spieler vom Spielen auf dem Server" to run [execute player command "/ban %arg 1%"]
+		format slot 7 of player with barrier named "&4&lPowerban" with lore "Ein Extremer Ban &c&lNUR IM NOTFALL ODER BEI GEFAHR!" to run [execute player command "/pban %arg 1% Schweres Fehlverhalten vor Admins oder Es geht ein Sicherheitsrisiko von dir aus!"]
+
+
+
+
+
+command /invsee [<player>]:
+	permission: op
+	trigger:
+		if arg 1 is set:
+			open the arg-1's inventory for the player
+
+
+
+command /stp [<player>]:
+	permission: op 
+	permission message: Du darfst kein Steahlt Teleport ausführen!
+	trigger:
+		if arg 1 is set:
+			teleport player to arg 1
+
+
+command /warn [<player>]:
+	permission: warn.use
+	permission message: du drafst keine spieler Abmahnen!
+	trigger:
+		send "{@prefix} &6&lVERWAHNUNG! &cDu hast verhalten Gezeigt was gegen die Server Rechtlinien ist! Benimm dich! Sonnst kannst du &4&lGEBANNT &cWerden!" to arg 1
+		send "{@prefix} &2%arg 1% wurde erfolgreich abgemahnt!" to player
+
+
+
+command /aban [<player>] [<text>]:
+	permission: op
+	trigger:
+		kick arg 1
+		ban arg 1 due to "{@prefix} &c&lDu Wurdest vom Netzwerk Gesperrt! Grund: &4&l%arg 2%"
+		ban ip of arg 1 due to "{@prefix} &c&lDu Wurdest vom Netzwerk Gesperrt! Grund: &4&l%arg 2%"
+
+
+
+command /areset [<player>]:
+	permission: op
+	permission message: &4&lDU BIST NICHT BERECHTIGT FÜR DAS!
+	trigger:
+		execute player command "/summon "
+		execute player command "/clear %arg 1%"
+		execute player command "/xp set %arg 1% 0 levels"
+		kick arg 1 due to "{@prefix} &6&lACHTUNG! &cDein Account wurde aufgrund Seltsammen Verhaltens oder Cheatens Zurückgesetzt! Bitte Halte dich Besser an Die Rechtlinien!!"
+		send "{@prefix} &2%arg 1% Wurde erfolgreich zurück gesetzt!" to player 
+
+
+command /ban [<offline player>] [<text>]:
+	permission: ban.use
+	permission message: &cNo Permission.
+	trigger:
+		if arg-1 is not set:
+			send "{@prefix} &c/ban &7<player> [reason]"
+		if arg-1 is set:
+			open chest with 2 rows named "&b&lSelect Ban Reason" to player
+			wait 1 tick
+			format slot 0 of player with iron sword named "&aKill Aura" with lore "" to close then run [make player execute command "/aban %arg-1% Kill Aura"] 
+			format slot 1 of player with lead named "&aAnti-Knockback" with lore "" to close then run [make player execute command "/aban %arg-1% Anti-Knockback"] 
+			format slot 2 of player with ghast tear named "&aFlying" with lore "" to close then run [make player execute command "/aban %arg-1% Flying"]
+			format slot 3 of player with speed potion named "&aSpeed" with lore "" to close then run [make player execute command "/aban %arg-1% Speed"]
+			format slot 4 of player with apple named "&aFast Eat" with lore "" to close then run [make player execute command "/aban %arg-1% Fast Eat"]
+			format slot 5 of player with compass named "&aBan Evasion" with lore "" to close then run [make player execute command "/aban %arg-1% Ban Evasion"]
+			format slot 6 of player with daylight sensor named "&aBug Abuse" with lore "" to close then run [make player execute command "/aban %arg-1% Bug Abuse"]
+			format slot 7 of player with melon slice named "&aNo Slowdown" with lore "" to close then run [make player execute command "/aban %arg-1% No Slowdown"] 
+			format slot 8 of player with barrier named "&4&lPowerban" with lore "Fürt ein Powerban/Sicherheits-ban aus!" to close then run [make player execute command "/pban %arg-1% DU STELLST EIN SICHERHEITSRISIKO DA! &cUnser system hat Auffaliges Verhalten bei dir gemeldet! Powerbans können nicht Umgangen oder zurück genommen werden. Melde dich bitte im support wenn du denkst es war ein fehler! "] 
+			format slot 9 of player with boat named "&aOther" with lore "" to close then run [make player execute command "/aban %arg-1% Du wurdest wegen Clientmodifikationen, Support Missbrauch oder einen anderen Regelverstoß Gesperrt!"]
+			format slot 17 of player with red wool named "&aCancel" with lore "" to close
+
+
+command /kill [<player>]:
+	permission: op 
+	trigger:
+		execute player command "/kill %arg 1%"
+		send "{@prefix} &cDas Hättest du nicht machen Sollen!" to arg 1
+
+# Powerban Code
+
+options:
+	prefix: Powerban
+
+
+command /pban [<player>] [<text>]:
+	permission: op
+	permission message: &c&lNUR ADMINS SIND BERECHTIGT EINEN POWERBAN ZU SETZEN!
+	trigger:
+		ban arg 1 due to "&cDu hast einen Powerban Erhalten! Grund: &4&l%arg 2%"
+		kick arg 1 due to "&cDu hast einen Powerban Bekommen! Grund: §4§l%arg 2%"
+		send "&5&l{@prefix}&2%arg 1% hat einen Powerban Erhalten!" to Player
+
+
+command /punban [<Offlineplayer>]:
+	permission: op 
+	trigger:
+		unban arg 1
+		send "&5&l{@prefix} &2%arg 1% hat einen Powerban Verloren!" to Player
+			
+
+# admin Controll Panel
+
+command /admin:
+	permission: op
+	permission message: "&4Du Musst ein Admin sein für denn befehl!"
+	trigger:
+		wait 1 tick
+		open chest with 5 rows named "&cAdmin Panel" to player 
+		wait 1 tick 
+		format slot 0 of player with barrier named "&4&lHerunterfahren" with lore "Stoppt denn Server und fährt ihn Runter" to close then run "stop"
+		format slot 1 of player with grass block named "&2Reload" with lore "Lädt alle plugins und Scripte neu (Gut wenn serverprobleme bestehen)" to close then run "reload"
+		format slot 2 of player with light gray glass named "&5&lVanish" with lore "Setzt dich in denn Vanish Mode." to close then run [execute player command "/v"]
+		format slot 3 of player with light gray glass named "&cUnvanish" with lore "entfernt denn Vanish modus" to close then run [execute player command "/uv"]
+		format slot 4 of player with red wool named "&4Sicherheits-kick" with lore "t" to close then run [execute player command "/kick @a &4&lSICHERHEITS KICK!! RISIKO ERKANNT!"]
+		format slot 5 of player with green wool named "lol" with lore "lol" to close then run "warp bagel"
+		format slot 6 of player with light gray glass named "lol" with lore "lol" to close then run "warp bagel"
+		format slot 7 of player with light gray glass named "lol" with lore "lol" to close then run "warp bagel"
+		format slot 8 of player with light gray glass named "lol" with lore "lol" to close then run "warp bagel"
+
+
+command /fsu help:
+	trigger:
+		send "Version 1.0 Beta" to player 
+		send "/am - Öffnet die FSU Support Interface" to player 			 
+		send "/admin - öffnet die serververwaltung" to player 
+		send "/pban <player> <reason> - Manueller Powerban" to player 
+		send "Vorschläge auf discord oder so sind immer wilkommen" to player
